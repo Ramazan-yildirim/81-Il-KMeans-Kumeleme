@@ -1,0 +1,22 @@
+﻿bolge,1,2,3,4,5,6,7,yontem
+Marmara Bölgesi,2,0,0,0,0,0,9,Manuel
+Ege Bölgesi,6,0,0,1,0,0,1,Manuel
+Akdeniz Bölgesi,0,0,0,3,1,4,0,Manuel
+İç Anadolu Bölgesi,0,0,0,2,1,9,1,Manuel
+Karadeniz Bölgesi,0,0,2,0,5,7,4,Manuel
+Doğu Anadolu Bölgesi,0,4,5,0,5,0,0,Manuel
+Güneydoğu Anadolu Bölgesi,0,4,0,0,5,0,0,Manuel
+Marmara Bölgesi,2,0,0,0,0,0,9,Aynı başlangıç
+Ege Bölgesi,6,0,0,1,0,0,1,Aynı başlangıç
+Akdeniz Bölgesi,0,0,0,3,1,4,0,Aynı başlangıç
+İç Anadolu Bölgesi,0,0,0,2,1,9,1,Aynı başlangıç
+Karadeniz Bölgesi,0,0,2,0,5,7,4,Aynı başlangıç
+Doğu Anadolu Bölgesi,0,4,5,0,5,0,0,Aynı başlangıç
+Güneydoğu Anadolu Bölgesi,0,4,0,0,5,0,0,Aynı başlangıç
+Marmara Bölgesi,1,0,0,0,1,9,0,k-means++ (20 başlangıç)
+Ege Bölgesi,0,0,0,0,6,2,0,k-means++ (20 başlangıç)
+Akdeniz Bölgesi,0,0,0,5,3,0,0,k-means++ (20 başlangıç)
+İç Anadolu Bölgesi,5,0,2,5,1,0,0,k-means++ (20 başlangıç)
+Karadeniz Bölgesi,6,4,7,0,0,0,1,k-means++ (20 başlangıç)
+Doğu Anadolu Bölgesi,0,5,0,0,0,0,9,k-means++ (20 başlangıç)
+Güneydoğu Anadolu Bölgesi,0,5,0,2,0,0,2,k-means++ (20 başlangıç)

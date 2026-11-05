@@ -1,0 +1,70 @@
+81 İL K-MEANS DENEY SONUÇLARI
+
+Python 3.12.2, NumPy 2.5.0, pandas 3.0.3, scikit-learn 1.9.0
+seed=42, max_iter=300, tol=0, algorithm=lloyd
+Süre: 1 ısınma + 15 tekrarın medyanı; iş parçacığı sınırı=1.
+Dosya okuma, grafik ve ARI/silhouette hesabı süreye dahil değildir.
+20 başlangıcın süresi bütün başlangıçları; iterasyonu yalnız kazananı kapsar.
+
+                  yontem  K  baslangic_sayisi  sure_medyan_ms  iterasyon    inertia  silhouette      ARI
+                  Manuel  7                 1        1.207200          3 228.276670    0.300111 0.243387
+          Aynı başlangıç  7                 1        0.901900          3 228.276670    0.300111 0.243387
+k-means++ (20 başlangıç)  7                20       17.089200          8 178.261612    0.350475 0.316252
+
+Manuel / aynı başlangıç scikit-learn küme benzerliği (ARI): 1.000000
+
+ K    inertia  silhouette  iterasyon
+ 2 717.318300    0.533243          5
+ 3 393.615104    0.476588          5
+ 4 309.237118    0.392700         13
+ 5 252.583502    0.384360          4
+ 6 214.576967    0.352501          3
+ 7 178.261612    0.350475          8
+ 8 149.705749    0.365224          6
+ 9 127.162146    0.374859          6
+10 104.143003    0.386805          4
+11  91.605401    0.400912          3
+12  82.686069    0.388902          5
+
+Silhouette'a göre en iyi K=2, skor=0.533243
+Normalize Elbow eğrisinde doğruya uzaklıkla dirsek adayı: K=4.
+Dirsek adayı sezgiseldir; grafikle birlikte yorumlanmalıdır.
+K=7 en iyi olmak zorunda değildir; K-Means K değerini kendisi öğrenmez.
+ARI küme numaralarını bölge adlarıyla eşleştirmez; 1 tam uyum, 0 rastgele düzeydir.
+Bölgeler sadece uzaklıkla belirlenmez; iklim ve yer şekilleri de etkilidir.
+Her il tek bölge etiketiyle temsil edilmiştir; coğrafi sınırlar il sınırı değildir.
+Ham derece koordinatları ve Öklid uzaklığı kullanıldı; WCSS birimi derece²dir.
+81 noktalı ölçüm genel bir hız üstünlüğü kanıtlamaz; süreler makineye göre değişir.
+
+Manuel: bölge-küme il sayıları
+kume                       1  2  3  4  5  6  7
+bolge
+Marmara Bölgesi            2  0  0  0  0  0  9
+Ege Bölgesi                6  0  0  1  0  0  1
+Akdeniz Bölgesi            0  0  0  3  1  4  0
+İç Anadolu Bölgesi         0  0  0  2  1  9  1
+Karadeniz Bölgesi          0  0  2  0  5  7  4
+Doğu Anadolu Bölgesi       0  4  5  0  5  0  0
+Güneydoğu Anadolu Bölgesi  0  4  0  0  5  0  0
+
+Aynı başlangıç: bölge-küme il sayıları
+kume                       1  2  3  4  5  6  7
+bolge
+Marmara Bölgesi            2  0  0  0  0  0  9
+Ege Bölgesi                6  0  0  1  0  0  1
+Akdeniz Bölgesi            0  0  0  3  1  4  0
+İç Anadolu Bölgesi         0  0  0  2  1  9  1
+Karadeniz Bölgesi          0  0  2  0  5  7  4
+Doğu Anadolu Bölgesi       0  4  5  0  5  0  0
+Güneydoğu Anadolu Bölgesi  0  4  0  0  5  0  0
+
+k-means++ (20 başlangıç): bölge-küme il sayıları
+kume                       1  2  3  4  5  6  7
+bolge
+Marmara Bölgesi            1  0  0  0  1  9  0
+Ege Bölgesi                0  0  0  0  6  2  0
+Akdeniz Bölgesi            0  0  0  5  3  0  0
+İç Anadolu Bölgesi         5  0  2  5  1  0  0
+Karadeniz Bölgesi          6  4  7  0  0  0  1
+Doğu Anadolu Bölgesi       0  5  0  0  0  0  9
+Güneydoğu Anadolu Bölgesi  0  5  0  2  0  0  2
