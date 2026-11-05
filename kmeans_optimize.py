@@ -206,6 +206,17 @@ def main():
                      ("Mevcut coğrafi bölgeler", "gercek_bolgeler.png"),
                      ("Bölge–küme dağılımı", "bolge_karsilastirma.png")]:
         markdown.extend([f"![{ad}](grafikler/{dosya})", ""])
+    markdown.extend([
+        "## Ek: İl sınırları boyalı haritalar", "",
+        "Mevcut nokta grafikleri korunmuştur. Bu dört ek haritada her il, aynı küme sonuçlarına "
+        "göre bütünüyle boyanır. Sınırlar kümeleri hesaplamak için kullanılmaz. "
+        "Bölge haritası, kaynak verinin il başına tek bölge etiketiyle yapılan gösterimidir.", "",
+        "![Manuel K-Means il haritası](grafikler/harita_manuel_7_kume.png)", "",
+        "![Aynı başlangıçla scikit-learn il haritası](grafikler/harita_optimize_7_kume.png)", "",
+        "![20 başlangıçlı scikit-learn il haritası](grafikler/harita_iyilestirilmis_7_kume.png)", "",
+        "![Coğrafi bölge etiketlerine göre il haritası](grafikler/harita_gercek_bolgeler.png)", "",
+        "Sınır kaynağı: geoBoundaries / OpenStreetMap contributors, 2021 ADM1. "
+        "[Kaynak ve lisans açıklaması](../README.md).", ""])
     markdown.extend(["## Küme üyeleri ve merkezler", ""])
     for (ad, sonuc), kok in zip(sonuclar.items(),
             ["manuel_kumeler", "optimize_7_kume", "optimize_iyilestirilmis"]):

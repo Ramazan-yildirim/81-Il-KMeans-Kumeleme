@@ -22,6 +22,7 @@ python veri_indir.py          # İsteğe bağlı: veriyi kaynağından tekrar in
 python kmeans_manuel.py       # Yalnız manuel K=7, CSV, merkezler ve grafik
 python kmeans_optimize.py     # İki yöntemi karşılaştırır ve tüm deneyleri üretir
 python gorsellestirme.py      # Mevcut CSV sonuçlarından grafikleri yeniden çizer
+python harita.py              # Mevcut CSV sonuçlarından 4 ek boyalı il haritası
 python -m unittest -v         # Algoritma ve veri kontrol testleri
 ```
 
@@ -31,10 +32,13 @@ Görselleştirme komutu veri dağılımını ve gerçek bölgeleri her zaman çi
 
 ```text
 data/iller.csv          81 ilin kaynak verisi
+data/il_sinirlari.geojson       Ek haritalar için 81 ilin sınırları
+data/il_sinirlari_kaynak.json   Sınır verisinin kaynak/lisans kaydı
 veri_indir.py           CSV okuma, doğrulama ve isteğe bağlı indirme
 kmeans_manuel.py       Döngülerle K-Means; sklearn kullanmaz
 kmeans_optimize.py     Yöntem karşılaştırması, K araştırması ve ARI
 gorsellestirme.py      PNG grafikleri
+harita.py              İl sınırları boyalı ek haritalar
 main.py               Bütün deneyleri tek komutla çalıştırır
 test_proje.py          Küçük doğruluk ve hatalı veri testleri
 veri_setleri.md        Üç öğrenme görevi için veri seti araştırması
@@ -54,7 +58,7 @@ Kaynak: [brkunver — Turkish Provinces Dataset](https://github.com/brkunver/tur
 - [Alanların kaynak açıklamaları](https://github.com/brkunver/turkiye-provinces-dataset/blob/027db5990f8d220edde133d8e958ed37200ef0c2/DATA_SOURCES.md)
 - [Kaynak veri lisansı](https://github.com/brkunver/turkiye-provinces-dataset/blob/027db5990f8d220edde133d8e958ed37200ef0c2/LICENSE)
 
-Kaynak, koordinatları GeoNames, NGA GIS, Wikidata ve şehir sayfalarından derlenmiş **il merkezi konumları** olarak açıklar. İllerin geometrik merkezleri veya il sınırları kullanılmaz. `region`, kaynağın il başına verdiği yedi coğrafi bölge etiketidir; istatistiksel NUTS sınıfları kullanılmaz.
+Kaynak, koordinatları GeoNames, NGA GIS, Wikidata ve şehir sayfalarından derlenmiş **il merkezi konumları** olarak açıklar. Kümeleme hesabında illerin geometrik merkezleri veya il sınırları kullanılmaz; ek haritalar için ayrıca sınır verisi bulunur. `region`, kaynağın il başına verdiği yedi coğrafi bölge etiketidir; istatistiksel NUTS sınıfları kullanılmaz.
 
 Her okumada zorunlu sütunlar, boş değerler, sayısal/sonlu koordinatlar, Türkiye için yaklaşık koordinat aralığı, tekrarlanan koordinatlar, 81 farklı il, plaka–il adı eşleşmesi ve yedi geçerli bölgenin bulunması denetlenir. İndirmede doğrulama tamamlanmadan mevcut dosyanın üzerine yazılmaz. Bu kontroller veri bütünlüğünü denetler; her koordinatın bağımsız saha doğrulaması değildir.
 
@@ -112,11 +116,11 @@ Bu deneyde manuel çözümün ARI'si **0,243387**, 20 başlangıçlı çözümü
 
 Coğrafi bölge ayrımında iklim, yer şekilleri ve diğer coğrafi özellikler de etkilidir. Coğrafi bölge sınırları il sınırlarıyla tam örtüşmez; burada veri kaynağının il başına tek etiket vermesi bir sadeleştirmedir.
 
-**Yöntem sınırı:** Ham enlem/boylam derecelerine Öklid uzaklığı uygulanır. Standartlaştırma yapılmaz; iki koordinatın derece ölçeği korunur. Dereceler kilometre değildir; WCSS birimi derece²dir. Grafikler nokta dağılımıdır, sınır haritası veya uygun projeksiyona sahip bir coğrafi harita değildir. Gerçek mesafe çalışması için ayrıca uygun bir projeksiyon gerekir.
+**Yöntem sınırı:** Ham enlem/boylam derecelerine Öklid uzaklığı uygulanır. Standartlaştırma yapılmaz; iki koordinatın derece ölçeği korunur. Dereceler kilometre değildir; WCSS birimi derece²dir. Mevcut nokta grafikleri sınır haritası değildir. Ek il haritalarında 39° referans enlemli eş dikdörtgen gösterim kullanılır; bu sadece çizimin görsel ölçeğini düzenler, kümeleme hesabını değiştirmez. Gerçek mesafe çalışması için ayrıca uygun bir projeksiyon gerekir.
 
 ## Grafikler ve çıktı dosyaları
 
-Sekiz PNG, [sonuclar/grafikler](sonuclar/grafikler/) klasöründedir. Dağılım grafiğindeki sayılar plaka kodlarıdır; il adları CSV'den okunabilir. Küme merkezleri X işaretiyle belirtilir.
+Mevcut sekiz PNG ve dört ek il haritası, [sonuclar/grafikler](sonuclar/grafikler/) klasöründedir. Dağılım grafiğindeki ve il haritalarındaki sayılar plaka kodlarıdır; il adları CSV'den okunabilir. Küme merkezleri X işaretiyle belirtilir.
 
 ![81 ilin dağılımı](sonuclar/grafikler/il_dagilimi.png)
 ![Manuel K-Means](sonuclar/grafikler/manuel_7_kume.png)
@@ -127,10 +131,23 @@ Sekiz PNG, [sonuclar/grafikler](sonuclar/grafikler/) klasöründedir. Dağılım
 ![Mevcut coğrafi bölgeler](sonuclar/grafikler/gercek_bolgeler.png)
 ![Bölge ve küme karşılaştırması](sonuclar/grafikler/bolge_karsilastirma.png)
 
+## Ek: İl sınırları boyalı haritalar
+
+Bu dört görsel mevcut grafiklere **ek olarak** hazırlanmıştır. Her ilin alanı, il merkezine atanmış kümenin rengiyle boyanır. Beyaz çizgiler il sınırları, X işaretleri hesaplanan küme merkezleridir. Sonuçlar yeniden kümelenmez; önceki CSV dosyaları kullanılır. Bölge haritası il başına tek bölge etiketinin gösterimidir; gerçek coğrafi bölge sınırlarıyla birebir örtüşmez.
+
+`python harita.py` yalnız ek haritaları üretir; mevcut ölçümlere ve nokta grafiklerine dokunmaz. `python main.py` bütün deneylerden sonra bu dört haritayı da üretir. GeoPandas gibi ek bağımlılıklar gerekmez; GeoJSON, Python ve Matplotlib ile çizilir. Ada parçaları ve poligon iç boşlukları korunur. Eşleştirme satır sırasına göre değil, `TR-01`–`TR-81` ISO/plaka kodlarına göre yapılır; 81 il ve ad eşleşmesi kontrol edilir.
+
+Sınır kaynağı [geoBoundaries TUR ADM1](https://www.geoboundaries.org/api/current/gbOpen/TUR/ADM1/), OpenStreetMap contributors kaynaklı, 2021'i temsil eden sadeleştirilmiş il geometrileridir. [Kullanılan sabit GeoJSON](https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09/releaseData/gbOpen/TUR/ADM1/geoBoundaries-TUR-ADM1_simplified.geojson) projeye eklenmiştir; normal çalıştırmada indirme gerekmez. Kaynağın metadata kaydı lisansı **Creative Commons Attribution-ShareAlike 2.0** olarak belirtir; bu kayıt [il_sinirlari_kaynak.json](data/il_sinirlari_kaynak.json) dosyasında korunmuştur. Kaynak atfı haritaların üzerinde de yer alır. [Kaynak lisansı](https://creativecommons.org/licenses/by-sa/2.0/) ve [OpenStreetMap atıf bilgisi](https://www.openstreetmap.org/copyright).
+
+![Manuel K-Means il haritası](sonuclar/grafikler/harita_manuel_7_kume.png)
+![Aynı başlangıçla scikit-learn il haritası](sonuclar/grafikler/harita_optimize_7_kume.png)
+![20 başlangıçlı scikit-learn il haritası](sonuclar/grafikler/harita_iyilestirilmis_7_kume.png)
+![Coğrafi bölge etiketlerine göre il haritası](sonuclar/grafikler/harita_gercek_bolgeler.png)
+
 Küme üyelikleri `manuel_kumeler.csv`, `optimize_7_kume.csv`, `optimize_iyilestirilmis.csv` dosyalarındadır. Her birinin `_merkezler.csv` dosyası da üretilir. Bütün il listeleri ve merkezler terminalde yazdırılır; açıklamalı sonuçlar `rapor.md`, ölçüm özeti `rapor.txt` içine kaydedilir.
 
 ## Doğrulama ve sonuç
 
-11 test; elle çözülebilen örneği, boş kümeyi, tekrarlanabilirliği, iterasyon sınırını, geçersiz parametreleri, scikit-learn ile aynı başlangıçta uyumu ve hatalı/eksik/tekrarlanan verileri kontrol eder. `python -m unittest -v` ile **11 testin tamamı geçti**; ardından `python main.py` ile bütün deneyler, CSV'ler, sekiz PNG ve raporlar yeniden üretildi. Veri indirme komutu da kaynakla doğrulanmıştır.
+11 test; elle çözülebilen örneği, boş kümeyi, tekrarlanabilirliği, iterasyon sınırını, geçersiz parametreleri, scikit-learn ile aynı başlangıçta uyumu ve hatalı/eksik/tekrarlanan verileri kontrol eder. `python -m unittest -v` ile **11 testin tamamı geçti**; ardından `python main.py` ile bütün deneyler, CSV'ler, sekiz PNG ve raporlar yeniden üretildi. Veri indirme komutu da kaynakla doğrulanmıştır. Ek il haritaları ayrıca `python harita.py` ile üretildi; mevcut sekiz PNG ve ölçüm CSV'leri değiştirilmedi.
 
 Manuel uygulama, K-Means'in temel mantığını gösterir. Aynı başlangıçta hazır yöntemle aynı çözüm elde edilir. Daha iyi başlangıç stratejisi WCSS'yi azaltabilir; bu, coğrafi bölgelerle tam uyum anlamına gelmez. Bu veri ve ölçütlerle K=7 zorunlu bir en iyi değer değildir.
